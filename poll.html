@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Poll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .poll-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .poll {
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Poll</h1>
+
+    <div class="poll-box">
+        <input type="text" id="pollInput" placeholder="Enter poll question">
+        <button onclick="createPoll()">Create</button>
+    </div>
+
+    <div id="pollDisplay" class="poll hidden">
+        <h3 id="question"></h3>
+
+        <button onclick="vote()">Vote 👍</button>
+        <p>Votes: <span id="count">0</span></p>
+    </div>
+
+    <script>
+        let votes = 0;
+
+        function createPoll() {
+            const question = document.getElementById("pollInput").value;
+
+            if (question.trim() === "") {
+                alert("Please enter a poll question");
+                return;
+            }
+
+            document.getElementById("question").textContent = question;
+            document.getElementById("pollDisplay").classList.remove("hidden");
+
+            votes = 0;
+            document.getElementById("count").textContent = votes;
+        }
+
+        function vote() {
+            votes++;
+            document.getElementById("count").textContent = votes;
+        }
+    </script>
+
+</body>
+</html>
