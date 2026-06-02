@@ -1,86 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Poll</title>
+    <title>Polling App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
+            max-width: 900px;
+            margin: 40px auto;
         }
 
         h1 {
             text-align: center;
         }
 
-        .poll-box {
+        .input-box {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         input {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
         }
 
         button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             cursor: pointer;
         }
 
-        .poll {
-            margin-top: 30px;
-            padding: 15px;
+        .poll-card {
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .hidden {
-            display: none;
+        .vote-btn {
+            width: 70px;
+            height: 50px;
+            font-size: 20px;
+        }
+
+        .question {
+            flex: 1;
+            font-size: 22px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Simple Poll</h1>
+<h1>Live Polling</h1>
 
-    <div class="poll-box">
-        <input type="text" id="pollInput" placeholder="Enter poll question">
-        <button onclick="createPoll()">Create</button>
-    </div>
+<div class="input-box">
+    <input type="text" id="questionInput" placeholder="Enter a question">
+    <button onclick="addQuestion()">Add</button>
+</div>
 
-    <div id="pollDisplay" class="poll hidden">
-        <h3 id="question"></h3>
+<div id="questionList"></div>
 
-        <button onclick="vote()">Vote 👍</button>
-        <p>Votes: <span id="count">0</span></p>
-    </div>
+<script>
+function addQuestion() {
 
-    <script>
-        let votes = 0;
+    const input = document.getElementById("questionInput");
+    const question = input.value.trim();
 
-        function createPoll() {
-            const question = document.getElementById("pollInput").value;
+    if(question === "") {
+        alert("Enter a question");
+        return;
+    }
 
-            if (question.trim() === "") {
-                alert("Please enter a poll question");
-                return;
-            }
+    const card = document.createElement("div");
+    card.className = "poll-card";
 
-            document.getElementById("question").textContent = question;
-            document.getElementById("pollDisplay").classList.remove("hidden");
+    let votes = 0;
 
-            votes = 0;
-            document.getElementById("count").textContent = votes;
-        }
+    card.innerHTML = `
+        <button class="vote-btn">▲ <span>0</span></button>
+        <div class="question">${question}</div>
+    `;
 
-        function vote() {
-            votes++;
-            document.getElementById("count").textContent = votes;
-        }
-    </script>
+    const voteButton = card.querySelector(".vote-btn");
+    const count = voteButton.querySelector("span");
+
+    voteButton.addEventListener("click", function() {
+        votes++;
+        count.textContent = votes;
+    });
+
+    document.getElementById("questionList").appendChild(card);
+
+    input.value = "";
+}
+</script>
 
 </body>
 </html>
